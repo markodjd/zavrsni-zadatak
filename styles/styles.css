@@ -15,3 +15,7 @@ h6,
 a.blog-post-title-link{
     color: #b34848;
 }
+
+.comments{
+    list-style: none;
+}

@@ -49,7 +49,7 @@ try {
 
                 <?php
 
-                $sql = "SELECT * FROM posts ORDER BY created_at DESC";
+                $sql = "SELECT * FROM posts ORDER BY created_at DESC;";
                 $statement = $connection->prepare($sql);
 
                 $statement->execute();
@@ -62,7 +62,7 @@ try {
 
                 <?php foreach ($posts as $post) { ?>
                     <div class="blog-post">
-                        <a class="blog-post-title-link" href="#">
+                        <a class="blog-post-title-link" href="<?php echo "single-post.php?post_id=" . $post['id'] ?>">
                             <h2 class="blog-post-title"><?php echo $post['title'] ?></h2>
                         </a>
                         <p class="blog-post-meta"><?php echo date('F d, Y', strtotime($post['created_at'])); ?> by <a href="#"><?php echo $post['author']; ?></a></p>
