@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-
 <?php
 
-$servername = "127.0.0.1";
-$username = "root";
-$password = "root";
-$dbname = "blog";
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['post_id'])) {
+    header('Location: not-found.php');
+}
 
-try {
-    $connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+include_once('connect-to-db.php');
 
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo $e->getMessage();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_POST['name'] && $_POST['comment']) {
+        $sql = "INSERT INTO comments (author, text, post_id) VALUES ('{$_POST['name']}', '{$_POST['comment']}', {$_GET['post_id']});";
+        $statement = $connection->prepare($sql);
+
+        $statement->execute();
+
+        header("Location: single-post.php?post_id={$_GET['post_id']}");
+    }
 }
 
 $post_id = $_GET['post_id'];
@@ -26,8 +28,12 @@ $statement->setFetchMode(PDO::FETCH_ASSOC);
 
 $post = $statement->fetch();
 
-?>
+if (!$post) {
+    header('Location: not-found.php');
+}
 
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -66,6 +72,7 @@ $post = $statement->fetch();
     </main>
 
     <?php include_once('footer.php'); ?>
+    <script src="js/validation.js"></script>
 </body>
 
 </html>

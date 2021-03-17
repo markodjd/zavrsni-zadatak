@@ -1,3 +1,19 @@
+<?php
+include_once('connect-to-db.php');
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    if ($_POST['name'] && $_POST['title'] && $_POST['post']) {
+
+        $sql = "INSERT INTO posts (author, body, title, created_at) VALUES ('{$_POST['name']}', '{$_POST['post']}', '{$_POST['title']}', NOW());";
+        $statement = $connection->prepare($sql);
+
+        $statement->execute();
+
+        header("Location: index.php");
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,8 +34,30 @@
 
 <body>
     <?php include_once('header.php'); ?>
-    <?php include_once('sidebar.php'); ?>
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <form class="create-post-form" action="create-post.php" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input name="name" type="text" class="form-control" id="name" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Post title</label>
+                        <input name="title" type="text" class="form-control" id="title" placeholder="Enter post title ">
+                    </div>
+                    <div class="form-group">
+                        <label for="post">Post content</label>
+                        <textarea name="post" class="form-control" id="post" rows="20" placeholder="Your post..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <?php include_once('sidebar.php'); ?>
+        </div>
+    </main>
     <?php include_once('footer.php'); ?>
 </body>
+<script src="js/validation.js"></script>
 
 </html>
