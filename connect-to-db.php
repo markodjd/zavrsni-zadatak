@@ -12,3 +12,18 @@ try {
 } catch (PDOException $e) {
     echo $e->getMessage();
 }
+
+function query($connection, $sql, $method, $multi = false) {
+    $statement = $connection->prepare($sql);
+
+    $statement->execute();
+
+    if ($method === 'GET') {
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+
+        if ($multi) {
+            return $statement->fetchAll();
+        }
+        return $statement->fetch();
+    }
+}

@@ -1,9 +1,9 @@
-html{
-    font-size: 14px;
+html {
+  font-size: 14px;
 }
 
-.navbar{
-    background-color: #b34848;
+.navbar {
+  background-color: #b34848;
 }
 
 h1,
@@ -12,44 +12,56 @@ h3,
 h4,
 h5,
 h6,
-a.blog-post-title-link{
-    color: #b34848;
+a.blog-post-title-link {
+  color: #b34848;
 }
 
-.comments{
-    list-style: none;
-    padding: 0;
+.comments {
+  list-style: none;
+  padding: 0;
 }
 
 .comment-form,
-.create-post-form{
-    margin-bottom: 40px;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
+.create-post-form {
+  margin-bottom: 40px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
 }
 
-.comments-title{
-    margin-bottom: 30px;
+.comments-title {
+  margin-bottom: 30px;
 }
 
-.error{
-    color: red;
+.error {
+  color: red;
 }
 
-.required-field{
-    border: 1px solid red;
+.required-field {
+  border: 1px solid red;
 }
 
-.not-found-page{
-    background: #b34848;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+.not-found-page {
+  background: #b34848;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-.not-found{
-    color: #fff;
-    font-size: 8rem;
+.not-found {
+  color: #fff;
+  font-size: 8rem;
+}
+
+.create-author-gender {
+  display: flex;
+}
+
+.male {
+  color: blue;
+}
+
+.female {
+  color: pink;
 }

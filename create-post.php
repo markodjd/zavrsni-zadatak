@@ -3,16 +3,17 @@ include_once('connect-to-db.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    if ($_POST['name'] && $_POST['title'] && $_POST['post']) {
+    if ($_POST['author'] && $_POST['title'] && $_POST['post']) {
 
-        $sql = "INSERT INTO posts (author, body, title, created_at) VALUES ('{$_POST['name']}', '{$_POST['post']}', '{$_POST['title']}', NOW());";
-        $statement = $connection->prepare($sql);
-
-        $statement->execute();
+        $sql = "INSERT INTO posts (author_id, body, title, created_at) VALUES ('{$_POST['author']}', '{$_POST['post']}', '{$_POST['title']}', NOW());";
+        query($connection, $sql, 'POST');
 
         header("Location: index.php");
     }
 }
+$sql = "SELECT * FROM author;";
+$authors = query($connection, $sql, 'GET', true);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,8 +40,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="col-sm-8">
                 <form class="create-post-form" action="create-post.php" method="POST">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input name="name" type="text" class="form-control" id="name" placeholder="Enter your name">
+                        <label for="author">Author</label>
+                        <select class="form-select form-control" name="author">
+                            <?php foreach ($authors as $author) { ?>
+                                <option class="<?php echo $author['gender']; ?>" value="<?php echo $author['id']; ?>"><?php echo $author['first_name'] . ' ' . $author['last_name']; ?></option>
+                            <?php } ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="title">Post title</label>
@@ -59,5 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php include_once('footer.php'); ?>
 </body>
 <script src="js/validation.js"></script>
+<script src="js/select.js"></script>
 
 </html>

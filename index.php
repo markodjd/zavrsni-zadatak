@@ -37,13 +37,8 @@ include_once('connect-to-db.php');
                 <?php
 
                 $sql = "SELECT * FROM posts ORDER BY created_at DESC;";
-                $statement = $connection->prepare($sql);
 
-                $statement->execute();
-
-                $statement->setFetchMode(PDO::FETCH_ASSOC);
-
-                $posts = $statement->fetchAll();
+                $posts = query($connection, $sql, 'GET', true);
 
                 ?>
 
@@ -52,8 +47,13 @@ include_once('connect-to-db.php');
                         <a class="blog-post-title-link" href="<?php echo "single-post.php?post_id=" . $post['id'] ?>">
                             <h2 class="blog-post-title"><?php echo $post['title'] ?></h2>
                         </a>
-                        <p class="blog-post-meta"><?php echo date('F d, Y', strtotime($post['created_at'])); ?> by <a href="#"><?php echo $post['author']; ?></a></p>
-
+                        <p class="blog-post-meta"><?php echo date('F d, Y', strtotime($post['created_at'])); ?> by
+                            <?php
+                            $sql = "SELECT * FROM author WHERE id = {$post['author_id']};";
+                            $data = query($connection, $sql, 'GET');
+                            ?>
+                            <a class="<?php echo $data['gender'] === 'M' ? 'male' : 'female' ?>" href="#"><?php echo $data["first_name"] . " " . $data["last_name"]; ?></a>
+                        </p>
                         <p><?php echo $post['body'] ?></p>
                     </div><!-- /.blog-post -->
                 <?php } ?>

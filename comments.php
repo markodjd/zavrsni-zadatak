@@ -1,23 +1,14 @@
 <?php
 
 $sql = "SELECT * FROM comments WHERE post_id = $post_id ORDER BY id DESC;";
-$statement = $connection->prepare($sql);
 
-$statement->execute();
-
-$statement->setFetchMode(PDO::FETCH_ASSOC);
-
-$comments = $statement->fetchAll();
+$comments = query($connection, $sql, 'GET', true);
 
 ?>
 
 <div>
     <h4>Leave a comment:</h4>
     <form class="comment-form" action="single-post.php?post_id=<?php echo $_GET['post_id'] ?>" method="POST">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input name="name" type="text" class="form-control" id="name" placeholder="Enter your name">
-        </div>
         <div class="form-group">
             <label for="post">Comment</label>
             <textarea name="comment" class="form-control" id="post" placeholder="Your comment..."></textarea>
@@ -32,7 +23,12 @@ $comments = $statement->fetchAll();
     <ul class="comments">
         <?php foreach ($comments as $key => $comment) { ?>
             <li>
-                <h5><?php echo $comment['author'] ?></h5>
+                <h5><?php
+                    $sql = "SELECT * FROM author WHERE id = {$comment['author_id']};";
+                    $author = query($connection, $sql, 'GET');
+
+                    echo $author["first_name"] . " " . $author["last_name"];
+                    ?></h5>
                 <p><?php echo $comment['text'] ?></p>
             </li>
             <hr />
